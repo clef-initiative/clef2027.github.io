@@ -13,6 +13,10 @@ menu:
     weight: 10
 ---
 
+{{< alert type="primary" title="Lab proposals are closed" >}}
+The deadline for lab proposals was **17 July 2026 (AoE)**.
+{{< /alert >}}
+
 ## Background
 
 [The CLEF Initiative](https://www.clef-initiative.eu/) is a self-organised body whose main mission is to promote research, innovation, and development of information access systems, with an emphasis on multilingual information in different modalities—including text and multimedia—and with various levels of structure. CLEF promotes research and development by providing an infrastructure for:
