@@ -1,0 +1,64 @@
+{{ define "hero" }}{{ partial "hero.html" . }}{{ end }}
+
+{{ define "main" }}
+{{ $color := .Site.Params.color | default "stone" }}
+{{ $gray := .Site.Params.gray | default "stone" }}
+
+<!-- Page content wrapper -->
+<div class="space-y-6 py-8 px-4 flex-1 w-xl md:w-2xl max-w-screen">
+
+    {{ partial "intro" . }}
+
+    {{ if .Content }}
+    <div class="space-y-6 pt-4">
+        {{ partial "content" . }}
+    </div>
+    {{ end }}
+
+    <!-- Articles listing -->
+    {{ if .Pages }}
+    <section class="space-y-1" aria-label="Articles">
+
+        <!-- Articles container -->
+        <div class="border-t-4 border-{{ $gray }}-200 dark:border-{{ $gray }}-800">
+            {{ range (.Paginate .Pages).Pages }}
+            <article class="border-b-4 border-{{ $gray }}-200 dark:border-{{ $gray }}-800 py-4 first:pt-6 last:border-b-0 last:pb-0">
+
+                <!-- Article header -->
+                <header class="space-y-1">
+                    <div class="flex">
+                        <h2 class="flex-1 text-xl font-semibold text-{{ $gray }}-900 dark:text-{{ $gray }}-100">
+                            <a
+                                href="{{ .RelPermalink }}"
+                                class="hover:text-{{ $color }}-600 dark:hover:text-{{ $color }}-400 transition-colors"
+                                aria-label="Read article: {{ .Title }}"
+                            >
+                                {{ .Title }}
+                            </a>
+                        </h2>
+                        {{ partial "button.html" (dict
+                          "href" .RelPermalink
+                          "type" "secondary"
+                          "size" "xs"
+                          "class" "flex-none"
+                          "content" "Read More"
+                      ) }}
+                    </div>
+
+                    <!-- Article summary -->
+                    <p class="text-sm text-{{ $gray }}-700 dark:text-{{ $gray }}-300 leading-relaxed line-clamp-4">
+                        {{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}
+                    </p>
+                </header>
+            </article>
+            {{ end }}
+        </div>
+
+        <!-- Pagination navigation -->
+        {{ partial "pagination.html" . }}
+
+    </section>
+    {{ end }}
+
+</div>
+{{ end }}

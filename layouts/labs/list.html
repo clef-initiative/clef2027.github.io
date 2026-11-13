@@ -1,0 +1,83 @@
+{{ define "hero" }}{{ partial "hero.html" . }}{{ end }}
+
+{{ define "main" }}
+{{ $color := .Site.Params.color | default "stone" }}
+{{ $gray := .Site.Params.gray | default "stone" }}
+
+<!-- Page content wrapper -->
+<div class="space-y-4 md:space-y-6 py-4 md:py-8 px-4 flex-1 w-full max-w-none md:max-w-2xl mx-auto">
+
+    <!-- Page header section -->
+    <header class="space-y-6 pt-4">
+        {{ partial "intro" . }}
+        {{ partial "content" . }}
+    </header>
+
+    <!-- Articles listing -->
+    {{ if .Pages }}
+    <section aria-label="Labs">
+        <!-- Labs container -->
+        <div class="border-t-4 border-{{ $gray }}-200 dark:border-{{ $gray }}-800 w-full overflow-hidden">
+            {{ range (.Paginate .Pages).Pages }}
+            <article class="border-b-4 border-{{ $gray }}-200 dark:border-{{ $gray }}-800">
+                <details class="space-y-2 open:[&_svg]:rotate-360 cursor-pointer py-2">
+                   <!-- Lab title + link -->
+                    <summary class="flex flex-wrap gap-2 m-0 select-none text-{{ $gray }}-900 dark:text-{{ $gray }}-100 hover:text-{{ $gray }}-600 dark:hover:text-{{ $gray }}-400">
+
+                        <div class="flex items-start gap-2 mb-2 md:mb-0 flex-2/5 md:flex-2 md:order-1 h-6 md:h-10">
+                          <svg class="flex-none rotate-270 transform transition-rotate duration-100 my-auto" fill="none" height="20" width="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                          </svg>
+                          <h2 class="text-lg md:text-xl font-semibold transition-color duration-100 flex-1 my-auto">
+                            {{ .Title }}
+                          </h2>
+                        </div>
+
+                        {{ with .Params.subtitle }}
+                        <div class="flex items-center text-sm text-{{ $gray }}-700 dark:text-{{ $gray }}-300 font-light ml-7 md:ml-0 md:h-10 flex-3/4 md:flex-4 order-3 md:order-2 md:my-auto transition-color duration-100">
+                          <span>{{ . }}</span>
+                        </div>
+                        {{ end }}
+
+                        <div class="md:my-auto flex-none md:flex-1 md:text-right order-2 md:order-3">
+                        {{ with .Params.url }}
+                          {{ partial "button.html" (dict
+                              "href" .
+                              "type" "secondary"
+                              "size" "sm"
+                              "class" "my-0"
+                              "content" "Lab"
+                              "icon" "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='3' stroke='currentColor' class='size-3'><path stroke-linecap='round' stroke-linejoin='round' d='m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25' /></svg>"
+                          ) }}
+                        {{ end }}
+                        </div>
+                    </summary>
+                    <!-- Lab abstract -->
+                    <div class="text-sm mt-2 md:mt-3 text-{{ $gray }}-700 dark:text-{{ $gray }}-300 leading-relaxed overflow-hidden transition-all duration-300 ease-in-out">
+                        <div class="mb-4 text-left md:text-justify px-2 md:px-0">
+                        {{ with .Description }}{{ . }}{{ else }}{{ .Summary }}{{ end }}
+                        </div>
+                        <div class="px-2 md:px-0">
+                        {{ partial "button.html" (dict
+                            "href" .RelPermalink
+                            "type" "secondary"
+                            "size" "sm"
+                            "class" "flex-none"
+                            "content" "Read more"
+                            "icon" ""
+                         ) }}
+                        </div>
+                    </div>
+              </details>
+            </article>
+            {{ end }}
+        </div>
+
+        <!-- Pagination navigation -->
+        {{ partial "pagination.html" . }}
+
+    </section>
+    {{ end }}
+
+</div>
+{{ end }}

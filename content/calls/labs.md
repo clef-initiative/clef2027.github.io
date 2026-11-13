@@ -103,8 +103,6 @@ Friedberg I, Wass MN, Mooney SD, Radivojac P. [Ten simple rules for a community 
 
 ## Important Dates
 
-Proposal registration and submission deadlines use **Anywhere on Earth (AoE)** time.
-
 {{< dates key="lab-organizer" past="strike" >}}
 
 ## CLEF 2027 Lab Chairs
