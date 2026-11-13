@@ -1,0 +1,46 @@
+# Confirmed CLEF 2027 dates only. Do not roll forward unconfirmed deadlines.
+paper-submission:
+  dates: []
+lab-participant:
+  dates: []
+lab-organizer:
+  dates:
+  - name: "Proposal registration: submit an abstract or draft to EasyChair"
+    date: "2026-07-15"
+    timezone: "AoE"
+  - name: "Hard deadline for submitting lab proposals through EasyChair"
+    date: "2026-07-17"
+    timezone: "AoE"
+  - name: "Notification of lab acceptance"
+    date: "2026-08-07"
+  - name: "Advertise accepted labs at CLEF 2026 in Jena, Germany"
+    date: "2026-09-21"
+    end_date: "2026-09-24"
+    timezone: "Europe/Berlin"
+  - name: "Submit short lab descriptions for ECIR 2027"
+    date: "2026-10-05"
+  - name: "Advertise labs at ECIR 2027 in Southampton, UK"
+    date: "2027-03-21"
+    end_date: "2027-03-25"
+    timezone: "Europe/London"
+  - name: "Lab evaluation cycle"
+    date: "2027-04"
+    end_date: "2027-05"
+  - name: "Review of participant papers"
+    date: "2027-05"
+    end_date: "2027-06"
+  - name: "Review of condensed lab overviews"
+    date: "2027-06"
+  - name: "CEUR-WS Working Notes preview for checking by authors and lab organisers"
+    date: "2027-07"
+  - name: "Labs at CLEF 2027 in Bucharest, Romania"
+    date: "2027-09-14"
+    end_date: "2027-09-17"
+    timezone: "Europe/Bucharest"
+conference:
+  timezone: "Europe/Bucharest"
+  dates:
+  - name: "CLEF 2027 begins"
+    date: "2027-09-14"
+  - name: "CLEF 2027 ends"
+    date: "2027-09-17"
