@@ -1,0 +1,83 @@
+{{ define "hero" }}
+{{ partial "hero.html" . }}
+{{ end }}
+
+
+{{ define "main" }}
+{{ $color := .Site.Params.color | default "stone" }}
+{{ $gray := .Site.Params.gray | default "stone" }}
+
+<!-- Page content wrapper -->
+<div class="space-y-6 py-8 px-4">
+
+    <!-- Page header and content -->
+    <article class="space-y-8 pt-4">
+
+        <!-- Page introduction -->
+        {{ partial "intro" . }}
+
+        <div class="max-w-none my-12 flex items-stretch flex-row flex-wrap gap-2 justify-center">
+          {{ with .Params.url }}
+              {{ partial "button.html" (dict
+                  "href" .
+                  "type" "primary"
+                  "size" "sm"
+                  "class" "max-w-64"
+                  "content" "Go to Lab page (external)"
+                  "icon" "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='3' stroke='currentColor' class='size-3'><path stroke-linecap='round' stroke-linejoin='round' d='m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25' /></svg>"
+              ) }}
+          {{ end }}
+
+          {{ with .Site.Params.registration.lab }}
+              {{ partial "button.html" (dict
+                  "href" .
+                  "type" "primary"
+                  "size" "sm"
+                  "class" "max-w-64"
+                  "content" "Register for this lab"
+                  "icon" "<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke-width='3' stroke='currentColor' class='size-3'><path stroke-linecap='round' stroke-linejoin='round' d='m4.5 19.5 15-15m0 0H8.25m11.25 0v11.25' /></svg>"
+              ) }}
+          {{ end }}
+        </div>
+        <!-- Main content -->
+        {{ partial "content" . }}
+
+        <!-- Article metadata -->
+        <footer class="space-y-8 pt-8">
+
+            <!-- Tags section -->
+            {{ with .Params.tags }}
+            <section>
+                <h2 class="text-lg font-semibold text-{{ $gray }}-900 dark:text-{{ $gray }}-100 mb-4">Tags</h2>
+                <div class="flex flex-wrap gap-2" role="list">
+                    {{ range . }}
+                    <a
+                        href="{{ "/tags/" | relLangURL }}{{ . | urlize }}"
+                        class="inline-flex items-center px-3 py-2 rounded-xl text-sm font-medium border border-{{ $gray }}-200 text-{{ $gray }}-700 hover:text-{{ $gray }}-900 hover:bg-{{ $gray }}-50 dark:border-{{ $gray }}-700 dark:text-{{ $gray }}-300 dark:hover:text-{{ $gray }}-100 dark:hover:bg-{{ $gray }}-800 transition-colors"
+                        role="listitem"
+                        aria-label="View posts tagged with {{ . }}"
+                    >
+                        {{ . }}
+                    </a>
+                    {{ end }}
+                </div>
+            </section>
+            {{ end }}
+
+            <!-- Last modified date -->
+            {{ if .Lastmod }}
+            <section>
+                <div class="text-sm text-{{ $gray }}-600 dark:text-{{ $gray }}-400">
+                    <time datetime="{{ .Lastmod.Format "2006-01-02" }}">
+                        Last updated: {{ .Lastmod.Format "January 2, 2006" }}
+                    </time>
+                </div>
+            </section>
+            {{ end }}
+
+        </footer>
+
+    </article>
+
+</div>
+{{ end }}
