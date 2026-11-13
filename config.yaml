@@ -1,0 +1,141 @@
+# Core conference information - adapt to your conference anually
+baseURL: "https://clef2027.clef-initiative.eu/"
+title: "CLEF 2027 - Conference and Labs of the Evaluation Forum"
+copyright: "CLEF 2027"
+params:
+  logo: "img/clef2027-logo.png"
+  hero_image: "img/clef27-bucharest-01.jpg"
+  hero_image_dark: "img/clef27-bucharest-dark-01.png"
+  name: "CLEF 2027"
+  dates: "September 14-17, 2027"
+  location: "Bucharest, Romania"
+  registration:
+    lab: "" # Leave empty to hide on page
+    conference: "" # Leave empty to hide on page
+  year: 2027
+  email: "clef2027@aimultimedialab.ro"
+  color: "emerald" # Any of red`, `orange`, `amber`, `yellow`, `lime`, `green`, `emerald`, `teal`, `cyan`, `sky`, `blue`, `indigo`, `violet`, `purple`, `fuchsia`, `pink`, `rose`, or any gray tone
+  gray: "neutral" # Any of `slate`, `gray`, `zinc`, `neutral`, `stone`
+  repo: "https://github.com/clef-initiative/clef2027.github.io/"
+
+##############################################################################
+#                                                                            #
+# Menu config - only edit beyond this line if you're sure what you're doing! #
+#                                                                            #
+##############################################################################
+
+# Menu Configuration
+menu:
+  # Main Navigation
+  main:
+    - identifier: "calls"
+      name: "Calls"
+      url: "/calls/"
+      weight: 20
+    
+    - identifier: "labs"
+      name: "Labs"
+      url: "/labs/"
+      weight: 30
+    
+    - identifier: "conference"
+      name: "Conference"
+      url: "/conference/"
+      weight: 40
+
+  # Footer Menu
+  footer:
+    - identifier: "clef-initiative-link"
+      name: "CLEF Initiative"
+      url: "https://www.clef-initiative.eu/"
+      weight: 1
+
+    - identifier: "previous-conferences"
+      name: "Previous Conferences"
+      url: "https://www.clef-initiative.eu/#editions"
+      weight: 2
+
+    - identifier: "imprint"
+      name: "Contact"
+      url: "mailto:clef2027@aimultimedialab.ro"
+      weight: 3
+
+##############################################################################
+#                                                                            #
+# DANGERZONE - do not edit beyond this line!                                 #
+#                                                                            #
+##############################################################################
+languageCode: "en-us"
+theme: "clef-theme"
+defaultContentLanguage: "en"
+enableRobotsTXT: true
+enableGitInfo: false
+enableEmoji: true
+pagination:
+  pagerSize: 20
+buildFuture: false
+buildDrafts: false
+build:
+  buildStats:
+    enable: true
+  cachebusters:
+  - source: assets/notwatching/hugo_stats\.json
+    target: css
+  - source: (postcss|tailwind)\.config\.js
+    target: css
+module:
+  mounts:
+  - source: assets
+    target: assets
+  - disableWatch: true
+    source: hugo_stats.json
+    target: assets/notwatching/hugo_stats.json
+
+# URLs
+cleanDestinationDir: true
+canonifyURLs: false
+relativeURLs: false
+uglyURLs: false
+
+# Taxonomies
+taxonomies:
+  tag: "tags"
+  category: "categories"
+
+# Permalinks
+permalinks:
+  news: "/news/:year/:month/:day/:slug/"
+  labs: "/labs/:slug/"
+
+# Markup Configuration
+markup:
+  goldmark:
+    parser:
+      attribute:
+        block: true
+      wrapStandAloneImageWithinParagraph: true
+    renderer:
+      unsafe: true
+  highlight:
+    codeFences: true
+    guessSyntax: false
+    lineNoStart: 1
+    lineNos: false
+    lineNumbersInTable: true
+    noClasses: false
+    style: "github"
+    tabWidth: 4
+  tableOfContents:
+    endLevel: 2
+    ordered: false
+    startLevel: 2
+
+security:
+  exec:
+    allow:
+    - ^(dart-)?sass$
+    - ^go$
+    - ^git$
+    - ^node$
+    - ^postcss$
+    - ^tailwindcss$

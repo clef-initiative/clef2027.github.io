@@ -1,0 +1,23 @@
+/public
+/resources
+node_modules
+.idea
+.DS_Store
+.hugo_build.lock
+hugo_stats.json
+package.json
+package-lock.json
+.vscode
+/.build/
+
+# Local migration notes, work logs, and test reports must not be committed.
+MIGRATION*.md
+WORKLOG*.md
+WORK-LOG*.md
+TEST-REPORT*.md
+TEST-RESULTS*.md
+/.local-notes/
+/migration/
+
+# Keep the incomplete legal notice local until its details are confirmed.
+/content/imprint.md

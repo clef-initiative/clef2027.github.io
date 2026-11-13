@@ -1,0 +1,72 @@
+{{/* Local extension of the theme's dates shortcode. Dates use YYYY-MM-DD or YYYY-MM; end_date is inclusive. */}}
+{{ $key := .Get "key" | default "all" }}
+{{ $past := .Get "past" | default "strike" }}
+{{ $gray := site.Params.gray | default "stone" }}
+{{ $entries := slice }}
+{{ range $groupKey, $group := site.Data.dates }}
+  {{ if or (eq $key "all") (eq $key $groupKey) }}
+    {{ range $group.dates }}
+      {{ $zone := .timezone | default $group.timezone | default "" }}
+      {{ $entries = $entries | append (merge . (dict "timezone" $zone)) }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+{{ if $entries }}
+<div class="overflow-hidden max-w-full rounded-xl border border-{{ $gray }}-200 dark:border-{{ $gray }}-700 bg-{{ $gray }}-50 dark:bg-{{ $gray }}-800" data-dates-table data-past-mode="{{ $past }}">
+  <div class="overflow-x-auto">
+    <table class="min-w-full mt-1 mb-0">
+      <thead><tr>
+        <th scope="col" class="p-2 text-left">Event</th>
+        <th scope="col" class="p-2 text-left">Date</th>
+        <th scope="col" class="p-2 text-left">Status</th>
+      </tr></thead>
+      <tbody>
+      {{ range sort $entries "date" }}
+        {{ $start := .date }}
+        {{ $end := .end_date | default $start }}
+        {{ $zone := .timezone }}
+        {{ if in (slice "AoE" "Anywhere on Earth (AoE)") $zone }}{{ $zone = "Etc/GMT+12" }}{{ end }}
+        {{ $startMonth := eq (len $start) 7 }}
+        {{ $endMonth := eq (len $end) 7 }}
+        {{ $startISO := $start }}
+        {{ $endISO := $end }}
+        {{ if $startMonth }}{{ $startISO = printf "%s-01" $start }}{{ end }}
+        {{ if $endMonth }}{{ $endISO = printf "%s-01" $end }}{{ end }}
+        {{/* Use UTC only for calendar arithmetic when no zone is given; emit floating local timestamps below. */}}
+        {{ $calendarZone := $zone | default "UTC" }}
+        {{ $startTime := time.AsTime $startISO $calendarZone }}
+        {{ $endTime := time.AsTime $endISO $calendarZone }}
+        {{ $until := $endTime.AddDate 0 0 1 }}
+        {{ if $endMonth }}{{ $until = $endTime.AddDate 0 1 0 }}{{ end }}
+        {{ if not ($until.After $startTime) }}{{ errorf "Invalid date range for %q: %s to %s" .name $start $end }}{{ end }}
+        {{ $startFormat := "2 January 2006" }}
+        {{ $endFormat := "2 January 2006" }}
+        {{ if $startMonth }}{{ $startFormat = "January 2006" }}{{ end }}
+        {{ if $endMonth }}{{ $endFormat = "January 2006" }}{{ end }}
+        {{ $label := $startTime.Format $startFormat }}
+        {{ if ne $start $end }}
+          {{ if and $startMonth $endMonth (eq $startTime.Year $endTime.Year) }}
+            {{ $label = printf "%s–%s" ($startTime.Format "January") ($endTime.Format "January 2006") }}
+          {{ else if and (not $startMonth) (not $endMonth) (eq ($startTime.Format "2006-01") ($endTime.Format "2006-01")) }}
+            {{ $label = printf "%s–%s" ($startTime.Format "2") ($endTime.Format "2 January 2006") }}
+          {{ else }}
+            {{ $label = printf "%s – %s" $label ($endTime.Format $endFormat) }}
+          {{ end }}
+        {{ end }}
+        {{ $timestampFormat := "2006-01-02T15:04:05" }}
+        {{ if $zone }}{{ $timestampFormat = "2006-01-02T15:04:05Z07:00" }}{{ end }}
+        <tr data-start="{{ $startTime.Format $timestampFormat }}" data-until="{{ $until.Format $timestampFormat }}" data-period="{{ or $startMonth $endMonth (ne $start $end) }}" class="hover:bg-{{ $gray }}-100 dark:hover:bg-{{ $gray }}-700">
+          <td class="p-2"><span class="event-name">{{ .name }}</span></td>
+          <td class="p-2 whitespace-nowrap"><span class="event-date"><time datetime="{{ $start }}">{{ $label }}</time>{{ if in (slice "AoE" "Anywhere on Earth (AoE)") .timezone }} (AoE){{ end }}</span></td>
+          <td class="p-2 whitespace-nowrap"><span class="event-status" aria-live="polite">—</span></td>
+        </tr>
+      {{ end }}
+      </tbody>
+    </table>
+  </div>
+</div>
+{{ $script := resources.Get "js/dates.js" | minify | fingerprint }}
+<script src="{{ $script.RelPermalink }}" defer></script>
+{{ else }}
+<p>No dates have been announced for this schedule yet.</p>
+{{ end }}
