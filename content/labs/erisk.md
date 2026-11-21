@@ -1,6 +1,6 @@
 ---
 title: "eRisk"
-draft: true
+draft: false
 params:
   subtitle: "Early risk prediction on the internet"
   url: https://erisk.irlab.org/
@@ -21,13 +21,13 @@ The eRisk Lab features three different tasks:
 
 {{< accordion  open_all="true" >}}
   {{< accordion-item title="Conversational Depression Detection" >}}
-  Detecting depression through conversational agents. Participants will interact with LLM personas fine-tuned with diverse user histories and released on Hugging Face. The challenge is to determine whether each persona exhibits signs of depression and, within a limited conversational window, identify active depressive symptoms and the overall depression level. 
+  Detecting depression through conversational agents. Participants will interact with new LLM personas released on Hugging Face for local execution, representing profiles with and without depressive symptoms. Within predefined test windows, systems must estimate the persona's overall depression level and identify its depressive symptoms. The 2026 resources and a development persona will be available for preparation.
   {{< /accordion-item >}}
   {{< accordion-item title="Contextualised Early Detection of Depression" >}}
-  This task continues last year’s shift from isolated posts to full conversational contexts, aiming to capture real interaction dynamics across multiple speakers. Participants must process dialogues sequentially, accumulating evidence, where a message may only become informative when interpreted alongside preceding or subsequent publications.
+  The third and final edition of this task. Participants process target users' writings together with the full conversational context of the discussions, including other users' contributions, in chronological order. Systems must decide when there is enough evidence to issue an alert, balancing accuracy against decision delay. The 2025 and 2026 collections will be available for training.
   {{< /accordion-item >}}
   {{< accordion-item title="Sentence Ranking for ADHD Symptoms" >}}
-  This new task targets sentence-level retrieval for the 18 symptoms defined in the Adult ADHD Self-Report Scale (ASRS–v1.1). Participants must rank candidate sentences by their relevance to each symptom. A sentence is considered relevant when it conveys information about the user’s state with respect to the target ADHD symptom (irrespective of polarity or stance), encouraging models to capture clinically meaningful evidence rather than surface keywords.
+  The second edition of this task targets sentence-level retrieval for the 18 symptoms defined in the Adult ADHD Self-Report Scale (ASRS-v1.1). Participants must rank candidate sentences by their relevance to each symptom. A sentence is considered relevant when it conveys information about the user's state with respect to the target ADHD symptom (irrespective of polarity or stance). The 2026 corpus and its relevance judgements will be available for training.
   {{< /accordion-item >}}
 {{< /accordion >}}
 
@@ -37,5 +37,4 @@ The eRisk Lab features three different tasks:
 - Anxo Pérez (University of A Coruña, Spain)
 - Javier Parapar (University of A Coruña, Spain)
 - Xi Wang (University of Sheffield, United Kingdom)
-- Fabio Crestani (Università della Svizzera Italiana, Switzerland)  
-
+- Ana-Maria Bucur (Università della Svizzera italiana, Switzerland)
