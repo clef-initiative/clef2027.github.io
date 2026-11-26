@@ -1,6 +1,6 @@
 ---
 title: "eHealth"
-draft: true
+draft: false
 params:
   subtitle: NLP for clinical text de-identification and case report form filling"
   url: https://clef-ehealth2027.lisn.upsaclay.fr/
