@@ -1,0 +1,17 @@
+{{ $key := .Get "param" }}
+{{ $path := index .Site.Params $key | default "" }}
+{{ $alt := .Get "alt" | default "" }}
+{{ $label := .Get "label" | default "Download image" }}
+{{ $color := .Site.Params.color | default "stone" }}
+{{ $gray := .Site.Params.gray | default "stone" }}
+{{ with resources.Get $path }}
+  {{ $preview := .Fit "960x480 webp" }}
+  <div class="not-prose my-6 space-y-4">
+    <div class="overflow-hidden rounded-xl border border-{{ $gray }}-200 dark:border-{{ $gray }}-700 {{ if eq $key "logo" }}bg-{{ $color }}-200{{ else }}bg-{{ $gray }}-50 dark:bg-{{ $gray }}-900{{ end }}">
+      <img src="{{ $preview.RelPermalink }}" alt="{{ $alt }}" width="{{ $preview.Width }}" height="{{ $preview.Height }}" loading="lazy" decoding="async" class="mx-auto h-auto w-full{{ if eq $key "logo" }} p-6{{ end }}">
+    </div>
+    <a href="{{ .RelPermalink }}" download="{{ path.Base .Name }}" class="inline-flex max-w-full items-center rounded-xl bg-{{ $color }}-700 px-4 py-2 text-center font-semibold text-white no-underline hover:bg-{{ $color }}-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-{{ $color }}-700 transition-colors">{{ $label }}</a>
+  </div>
+{{ else }}
+  {{ errorf "Design Resources: %q must reference an existing image in assets/ (got %q)" $key $path }}
+{{ end }}
