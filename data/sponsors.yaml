@@ -1,0 +1,40 @@
+# Logo paths are relative to assets/.
+# Use logo for both modes, or logo_light and logo_dark for separate versions.
+# Mode-specific values override logo; a single supplied version serves both modes.
+# Tier order follows this list; empty tiers are hidden.
+organizing:
+  - name: "CAMPUS Research Institute, Politehnica Bucharest"
+    logo: "img/sponsors/logo-CAMPUS.svg"
+    url: "https://campus.pub.ro/"
+  - name: "National University of Science and Technology Politehnica Bucharest"
+    logo: "img/sponsors/logo-UPB.png"
+    url: "https://upb.ro/"
+  - name: "University of Milano-Bicocca"
+    logo: "img/sponsors/logo-Milano-Bicocca.jpg"
+    url: "https://en.unimib.it/"
+  - name: "University of Innsbruck"
+    logo_light: "img/sponsors/logo-Innsbruck.svg"
+    logo_dark: "img/sponsors/logo-Innsbruck-dark.png"
+    url: "https://www.uibk.ac.at/en/"
+  - name: "CEA LIST"
+    logo: "img/sponsors/logo-CEA-LIST.png"
+    url: "https://list.cea.fr/"
+
+sigir:
+  - name: "ACM"
+    logo: "img/sponsors/logo-ACM.png"
+    url: "https://www.acm.org/"
+  - name: "SIGIR"
+    logo: "img/sponsors/logo-SIGIR.png"
+    url: "https://sigir.org/"
+
+sponsors:
+  - title: "Platinum"
+    items: []
+  - title: "Gold"
+    items:
+      - name: "Siemens Industry Software, Romania"
+        logo: "img/sponsors/logo-Siemens.svg"
+        url: "https://www.siemens.com/ro-ro/"
+  - title: "Silver"
+    items: []

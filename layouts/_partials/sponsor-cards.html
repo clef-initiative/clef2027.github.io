@@ -1,0 +1,59 @@
+{{ $color := .site.Params.color | default "stone" }}
+{{ $gray := .site.Params.gray | default "stone" }}
+<div class="flex flex-wrap gap-6 justify-center items-stretch">
+  {{ range $index, $item := .items }}
+    {{ $itemName := strings.TrimSpace (.name | default "") }}
+    {{ $itemURL := strings.TrimSpace (.url | default "") }}
+    {{ if not $itemName }}
+      {{ errorf "data/sponsors.yaml: %s entry %d is missing name" $.group (add $index 1) }}
+    {{ end }}
+    {{ if not $itemURL }}
+      {{ errorf "data/sponsors.yaml: %s entry %d (%s) is missing url" $.group (add $index 1) $itemName }}
+    {{ end }}
+    {{ $sharedPath := strings.TrimSpace (.logo | default "") }}
+    {{ $lightPath := strings.TrimSpace (.logo_light | default "") }}
+    {{ $darkPath := strings.TrimSpace (.logo_dark | default "") }}
+    {{ $lightPath = or $lightPath $sharedPath $darkPath }}
+    {{ $darkPath = or $darkPath $sharedPath $lightPath }}
+    {{ $logo := false }}
+    {{ if not $lightPath }}
+      {{ errorf "data/sponsors.yaml: %s entry %d (%s) needs logo, logo_light, or logo_dark" $.group (add $index 1) $itemName }}
+    {{ else }}
+      {{ $logo = resources.Get $lightPath }}
+      {{ if not $logo }}
+        {{ errorf "Organization %q: light-mode logo %q was not found in assets/" $itemName $lightPath }}
+      {{ end }}
+    {{ end }}
+    {{ $separateLogos := ne $lightPath $darkPath }}
+    {{ $darkLogo := $logo }}
+    {{ if $separateLogos }}
+      {{ $darkLogo = resources.Get $darkPath }}
+      {{ if not $darkLogo }}
+        {{ errorf "Organization %q: dark-mode logo %q was not found in assets/" $itemName $darkPath }}
+      {{ end }}
+    {{ end }}
+    <a href="{{ $itemURL }}" target="_blank" rel="noopener noreferrer"
+       class="group flex flex-col items-center gap-2 p-4 rounded-xl
+              hover:bg-{{ $gray }}-50 dark:hover:bg-{{ $gray }}-800
+              transition-colors no-underline w-40 md:w-48">
+      <div class="w-full h-25 p-2 flex items-center justify-center">
+        {{ with $logo }}
+          <img src="{{ .RelPermalink }}" alt="{{ $itemName }}"
+               {{ if $separateLogos }}class="dark:hidden"{{ end }}
+               loading="lazy" decoding="async"
+               style="max-height:82px;max-width:100%;width:auto;height:auto;object-fit:contain;">
+        {{ end }}
+        {{ if $separateLogos }}
+        {{ with $darkLogo }}
+          <img src="{{ .RelPermalink }}" alt="{{ $itemName }}"
+               class="hidden dark:block" loading="lazy" decoding="async"
+               style="max-height:82px;max-width:100%;width:auto;height:auto;object-fit:contain;">
+        {{ end }}
+        {{ end }}
+      </div>
+      <span class="text-xs text-center font-medium text-{{ $gray }}-600 dark:text-{{ $gray }}-400
+                   group-hover:text-{{ $color }}-700 dark:group-hover:text-{{ $color }}-400
+                   transition-colors leading-tight">{{ $itemName }}</span>
+    </a>
+  {{ end }}
+</div>

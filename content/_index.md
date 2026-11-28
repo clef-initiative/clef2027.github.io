@@ -24,6 +24,8 @@ The conference combines scientific presentations with evaluation labs focused on
 
 The [Call for Lab Proposals](/calls/labs/) is available, with the scope, proposal requirements, submission instructions, and schedule for CLEF 2027 evaluation labs and workshops.
 
-The call for conference papers, confirmed lab lineup, program, venue, registration details, and sponsors will be announced on this website once confirmed.
+The call for conference papers, confirmed lab lineup, program, venue, and registration details will be announced on this website once confirmed.
+
+{{< sponsors >}}
 
 For enquiries, contact [clef2027@aimultimedialab.ro](mailto:clef2027@aimultimedialab.ro).
