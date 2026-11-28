@@ -10,6 +10,16 @@
   max-width: 100%;
 }
 
+header.sticky > .container {
+  width: 100%;
+  max-width: 48rem;
+  padding-inline: 0;
+}
+
+header.sticky button[aria-label="Toggle mobile menu"] {
+  margin-right: 0;
+}
+
 #main-content .prose {
   max-width: none;
 }
