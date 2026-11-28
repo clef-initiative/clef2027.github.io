@@ -1,4 +1,4 @@
-# CLEF 2026 Content Editor's Guide
+# CLEF Content Editor's Guide
 
 ## Getting Started
 
@@ -453,6 +453,32 @@ It is intended to be inserted on the home page markdown as a call to action for 
 ```markdown
 {{< cta >}}
 ```
+
+### 8. Committees Component
+
+The Committees page uses `{{< committees >}}` to render `data/committees.yaml`.
+Update the data file when changing the committee for a new edition; no template changes are needed.
+
+```yaml
+groups:
+  - title: "General Chairs"
+    members:
+      - name: "Chair Name"
+        affiliation: "University, Country"
+        image: "img/committees/chair-name.jpg"
+```
+
+Groups and members appear in the order listed. Groups with no members are hidden.
+Each populated group needs a title, and each member needs a name and affiliation.
+The `image` field is optional; when supplied, it must point to an existing raster image under `assets/`.
+Missing required fields or invalid image paths stop the build with an error identifying the entry.
+
+Store finished portraits in `assets/img/committees/`, using lowercase, hyphenated filenames.
+Prepare square, consistently framed photos before adding them; cropping settings are not stored in YAML.
+Hugo generates square WebP thumbnails without stretching the image or enlarging small originals.
+The layout uses the site's configured gray palette and accent color, including the card hover effect, and supports light and dark modes.
+
+Set `draft: false` in `content/conference/committees.md` when the committee is ready to appear on the site.
 
 ## Tips for Content Editors
 
