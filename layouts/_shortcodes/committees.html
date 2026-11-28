@@ -1,0 +1,43 @@
+{{ $color := .Site.Params.color | default "stone" }}
+{{ $gray := .Site.Params.gray | default "stone" }}
+{{ range $groupIndex, $group := .Site.Data.committees.groups }}
+  {{ if .members }}
+    {{ $title := strings.TrimSpace (.title | default "") }}
+    {{ if not $title }}
+      {{ errorf "data/committees.yaml: group %d is missing title" (add $groupIndex 1) }}
+    {{ end }}
+    {{ $headingID := printf "committees-%d-%d" $.Ordinal $groupIndex }}
+    <section class="not-prose my-10" aria-labelledby="{{ $headingID }}">
+      <h2 id="{{ $headingID }}" class="mb-6 text-2xl font-semibold text-{{ $gray }}-900 dark:text-{{ $gray }}-100">{{ $title }}</h2>
+      <ul class="flex flex-wrap justify-center gap-8" role="list">
+        {{ range $memberIndex, $member := .members }}
+          {{ $name := strings.TrimSpace (.name | default "") }}
+          {{ $affiliation := strings.TrimSpace (.affiliation | default "") }}
+          {{ if not $name }}
+            {{ errorf "data/committees.yaml: %s member %d is missing name" $title (add $memberIndex 1) }}
+          {{ end }}
+          {{ if not $affiliation }}
+            {{ errorf "data/committees.yaml: %s member %d (%s) is missing affiliation" $title (add $memberIndex 1) $name }}
+          {{ end }}
+          <li class="group flex w-full max-w-full flex-col items-center rounded-xl p-4 text-center sm:w-56 hover:bg-{{ $gray }}-50 dark:hover:bg-{{ $gray }}-800 transition-colors motion-reduce:transition-none">
+            {{ with strings.TrimSpace (.image | default "") }}
+              {{ with resources.Get . }}
+                {{ if in (slice "image/jpeg" "image/png" "image/webp" "image/gif" "image/bmp" "image/tiff") .MediaType.Type }}
+                  {{ $size := int (math.Min 320 (math.Min .Width .Height)) }}
+                  {{ $portrait := .Fill (printf "%dx%d Center webp" $size $size) }}
+                  <img src="{{ $portrait.RelPermalink }}" alt="{{ $name }}" width="160" height="160" loading="lazy" decoding="async" class="h-40 w-40 rounded-full object-cover">
+                {{ else }}
+                  {{ errorf "data/committees.yaml: portrait for %q must be a JPEG, PNG, WebP, GIF, BMP, or TIFF image" $name }}
+                {{ end }}
+              {{ else }}
+                {{ errorf "data/committees.yaml: portrait %q for %q was not found in assets/" . $name }}
+              {{ end }}
+            {{ end }}
+            <h3 class="mt-4 text-center text-lg font-semibold text-{{ $gray }}-900 dark:text-{{ $gray }}-100 group-hover:text-{{ $color }}-700 dark:group-hover:text-{{ $color }}-400 transition-colors motion-reduce:transition-none">{{ $name }}</h3>
+            <div class="mt-1 text-center text-sm leading-relaxed text-{{ $gray }}-600 dark:text-{{ $gray }}-400">{{ $affiliation }}</div>
+          </li>
+        {{ end }}
+      </ul>
+    </section>
+  {{ end }}
+{{ end }}
