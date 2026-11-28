@@ -1,0 +1,34 @@
+{{ $data := .Site.Data.sponsors }}
+{{ $gray := .Site.Params.gray | default "stone" }}
+{{ range slice (dict "title" "Organizing Institutions" "items" $data.organizing) (dict "title" "Friends of SIGIR support" "items" $data.sigir) }}
+  {{ if .items }}
+    <section class="not-prose my-8" aria-label="{{ .title }}">
+      <h2 class="text-lg font-semibold text-{{ $gray }}-900 dark:text-{{ $gray }}-100 mb-4 text-center">{{ .title }}</h2>
+      {{ partial "sponsor-cards.html" (dict "items" .items "site" $.Site "group" .title) }}
+    </section>
+  {{ end }}
+{{ end }}
+
+{{ $tiers := slice }}
+{{ range $index, $tier := $data.sponsors }}
+  {{ $title := strings.TrimSpace ($tier.title | default "") }}
+  {{ if not $title }}
+    {{ errorf "data/sponsors.yaml: sponsor tier %d is missing title" (add $index 1) }}
+  {{ end }}
+  {{ if $tier.items }}
+    {{ $tiers = $tiers | append (dict "title" $title "items" $tier.items) }}
+  {{ end }}
+{{ end }}
+{{ with $tiers }}
+  <section class="not-prose my-8" aria-label="Sponsors">
+    <h2 class="text-lg font-semibold text-{{ $gray }}-900 dark:text-{{ $gray }}-100 mb-4 text-center">Sponsors</h2>
+    <div class="space-y-8">
+      {{ range . }}
+        <section aria-label="{{ .title }} sponsors">
+          <h3 class="text-base font-semibold text-{{ $gray }}-800 dark:text-{{ $gray }}-200 mb-4 text-center">{{ .title }}</h3>
+          {{ partial "sponsor-cards.html" (dict "items" .items "site" $.Site "group" .title) }}
+        </section>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}
